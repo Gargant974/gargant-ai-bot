@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maison Élise — Assistant IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0a0a;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'DM Sans',sans-serif;}
+.shell{width:100%;max-width:420px;border-radius:24px;overflow:hidden;border:0.5px solid #2a2a2a;background:#141414;box-shadow:0 25px 60px rgba(0,0,0,0.5);}
+.hdr{background:#0d0d0d;padding:24px 20px 20px;text-align:center;border-bottom:0.5px solid #1e1e1e;}
+.gold-line{height:0.5px;background:linear-gradient(90deg,transparent,#c9a96e,transparent);margin:0 0 16px;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#f5f0e8;letter-spacing:6px;text-transform:uppercase;}
+.logo em{font-style:italic;color:#c9a96e;}
+.tagline{font-size:9px;color:#555;letter-spacing:3px;text-transform:uppercase;margin-top:6px;}
+.gold-line2{height:0.5px;background:linear-gradient(90deg,transparent,#c9a96e,transparent);margin:16px 0 0;}
+.online-row{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;}
+.dot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.online-txt{font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;}
+.msgs{padding:16px;display:flex;flex-direction:column;gap:10px;height:340px;overflow-y:auto;}
+.msgs::-webkit-scrollbar{width:3px;}
+.msgs::-webkit-scrollbar-thumb{background:#c9a96e33;border-radius:2px;}
+.row{display:flex;gap:8px;animation:up .25s ease;}
+@keyframes up{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.row.u{flex-direction:row-reverse;}
+.av{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.av.b{background:#0d0d0d;color:#c9a96e;font-family:'Cormorant Garamond',serif;border:0.5px solid #c9a96e22;}
+.av.u{background:#c9a96e15;color:#c9a96e;border:0.5px solid #c9a96e33;}
+.bub{max-width:78%;padding:10px 14px;font-size:13px;line-height:1.65;}
+.bub.b{background:#1a1a1a;color:#e8e3d8;border-radius:3px 14px 14px 14px;border:0.5px solid #2a2a2a;}
+.bub.u{background:#c9a96e18;color:#f0ebe0;border-radius:14px 3px 14px 14px;border:0.5px solid #c9a96e22;}
+.bub.typing span{display:inline-block;width:4px;height:4px;border-radius:50%;background:#c9a96e;margin:0 2px;animation:dot 1.2s infinite;}
+.bub.typing span:nth-child(2){animation-delay:.2s;}
+.bub.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes dot{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-4px);}}
+.chips{display:flex;flex-wrap:wrap;gap:5px;padding:0 16px 12px;}
+.chip{padding:5px 12px;font-size:11px;border:0.5px solid #c9a96e33;border-radius:20px;color:#c9a96e;background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;letter-spacing:.5px;}
+.chip:hover{background:#c9a96e11;border-color:#c9a96e66;}
+.inp-row{display:flex;gap:8px;padding:12px 16px;border-top:0.5px solid #1e1e1e;}
+.inp{flex:1;padding:10px 14px;border:0.5px solid #2a2a2a;border-radius:12px;background:#1a1a1a;color:#e8e3d8;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border .15s;}
+.inp:focus{border-color:#c9a96e44;}
+.inp::placeholder{color:#444;}
+.send-btn{width:38px;height:38px;border-radius:12px;background:#0d0d0d;border:0.5px solid #2a2a2a;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.send-btn:hover{border-color:#c9a96e44;}
+.send-btn svg{width:13px;height:13px;fill:#c9a96e;}
+.foot{text-align:center;padding:10px;font-size:9px;color:#333;letter-spacing:2px;text-transform:uppercase;border-top:0.5px solid #1e1e1e;}
+.foot span{color:#c9a96e55;}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="hdr">
+    <div class="gold-line"></div>
+    <div class="logo">Maison <em>Élise</em></div>
+    <div class="tagline">Salon de coiffure & beauté · Paris</div>
+    <div class="gold-line2"></div>
+    <div class="online-row">
+      <div class="dot"></div>
+      <div class="online-txt">Assistante disponible 24h/24</div>
+    </div>
+  </div>
+
+  <div class="msgs" id="msgs">
+    <div class="row">
+      <div class="av b">É</div>
+      <div class="bub b">Bonjour et bienvenue chez <strong>Maison Élise</strong>. Je suis votre assistante personnelle. Comment puis-je vous aider aujourd'hui ?</div>
+    </div>
+  </div>
+
+  <div class="chips">
+    <button class="chip" onclick="ask('Quels sont vos tarifs ?')">Tarifs</button>
+    <button class="chip" onclick="ask('Vous êtes ouverts quand ?')">Horaires</button>
+    <button class="chip" onclick="ask('Comment prendre rendez-vous ?')">Rendez-vous</button>
+    <button class="chip" onclick="ask('Quelles prestations proposez-vous ?')">Prestations</button>
+    <button class="chip" onclick="ask('Vous êtes où ?')">Localisation</button>
+  </div>
+
+  <div class="inp-row">
+    <input class="inp" id="inp" placeholder="Posez votre question..." onkeydown="if(event.key==='Enter')send()"/>
+    <button class="send-btn" onclick="send()">
+      <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+  <div class="foot">Propulsé par <span>Gargant AI</span></div>
+</div>
+
+<script>
+const SYSTEM=`Tu es l'assistante virtuelle du salon de coiffure haut de gamme "Maison Élise" à Paris. Tu t'appelles Élise. Tu réponds en français, avec élégance et chaleur. Tu es concise (2-3 phrases max), toujours polie et professionnelle.\n\nInfos :\n- Horaires : mardi-samedi 9h-19h, jeudi jusqu'à 20h, fermé dim/lun\n- Tarifs : coupe femme 55€, homme 35€, brushing 40€, coloration 130€, balayage 150€, kératine 180€\n- Adresse : 12 rue de la Paix, 75001 Paris (métro Opéra), parking gratuit\n- Réservation : en ligne ou sur demande`;
+let history=[];
+
+function addMsg(text,type){
+  const msgs=document.getElementById('msgs');
+  const row=document.createElement('div');
+  row.className='row'+(type==='u'?' u':'');
+  const av=document.createElement('div');
+  av.className='av '+type;
+  av.textContent=type==='b'?'É':'V';
+  const bub=document.createElement('div');
+  bub.className='bub '+type;
+  bub.innerHTML=text;
+  if(type==='u'){row.appendChild(bub);row.appendChild(av);}
+  else{row.appendChild(av);row.appendChild(bub);}
+  msgs.appendChild(row);
+  msgs.scrollTop=msgs.scrollHeight;
+  return bub;
+}
+
+function addTyping(){
+  const msgs=document.getElementById('msgs');
+  const row=document.createElement('div');
+  row.className='row';
+  const av=document.createElement('div');
+  av.className='av b';av.textContent='É';
+  const bub=document.createElement('div');
+  bub.className='bub b typing';
+  bub.innerHTML='<span></span><span></span><span></span>';
+  row.appendChild(av);row.appendChild(bub);
+  msgs.appendChild(row);
+  msgs.scrollTop=msgs.scrollHeight;
+  return row;
+}
+
+async function callClaude(msg){
+  history.push({role:'user',content:msg});
+  const res=await fetch('/api/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({messages:history,system:SYSTEM})
+  });
+  const data=await res.json();
+  const reply=data.content?.[0]?.text||'Une erreur est survenue.';
+  history.push({role:'assistant',content:reply});
+  return reply;
+}
+
+function ask(q){document.getElementById('inp').value=q;send();}
+
+async function send(){
+  const inp=document.getElementById('inp');
+  const q=inp.value.trim();
+  if(!q)return;
+  inp.value='';
+  addMsg(q,'u');
+  const typing=addTyping();
+  try{
+    const reply=await callClaude(q);
+    typing.remove();
+    addMsg(reply,'b');
+  }catch(e){
+    typing.remove();
+    addMsg('Erreur de connexion. Veuillez réessayer.','b');
+  }
+}
+</script>
+</body>
+</html>
